@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+
+    <title>Suggestions</title>
+    <meta name="description" content="" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <link href="img/favicon.ico" rel="shortcut icon" type="favicon.ico" />
+    <link rel="stylesheet" href="css/main.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <template id="suggest">
+      <style>
+        @import url('css/main.min.css');
+      </style>
+      <script>
+        class Suggestions {
+          constructor(params) {
+            this.selector = document.querySelector(params.selector);
+
+            //Обернем инпут
+            const suggestionsWrapper = document.createElement('div');
+            suggestionsWrapper.className = 'suggestions-wrapper';
+            const suggestions = document.createElement('div');
+            suggestions.className = 'suggestions';
+            this.selector.parentNode.insertBefore(
+              suggestionsWrapper,
+              this.selector
+            );
+            suggestionsWrapper.appendChild(this.selector);
+            suggestionsWrapper.appendChild(suggestions);
+
+            //Создадим выпадающий список с данными
+            const generateHTML = (data) => {
+              let template = `
+						<ul class="suggestions__list">`;
+              for (let index = 0; index < data.length; index++) {
+                template += `<li class="suggestions__list-item">
+								<p class="suggestions__list-item__title">${data[index].value}</p>
+								<p class="suggestions__list-item__subtitle">${data[index].data.address.unrestricted_value}</p>
+							</li>`;
+              }
+              template += `</ul>`;
+              return template;
+            };
+            //Проверим нашлись данные или нет
+            const checkData = (data) => {
+              const suggestionsItems = suggestions.querySelectorAll('li');
+              suggestionsItems.length
+                ? suggestions.classList.remove('empty')
+                : suggestions.classList.add('empty');
+              suggestionsItems.forEach((item, idx) =>
+                item.addEventListener('click', () => {
+                  innerData(data[idx]);
+                })
+              );
+            };
+            //Вставим данные в div
+            const innerSearch = (data) => {
+              const suggestionsWrapper = document.querySelector('.suggestions');
+              suggestionsWrapper.innerHTML = generateHTML(data);
+              checkData(data);
+            };
+            // Определим тип
+            const getType = (str) => {
+              if (str === 'INDIVIDUAL') return 'Индивидуальный предприниматель';
+              if (str === 'LEGAL') return 'Организация';
+              return '';
+            };
+            //Заполним остальные инпуты
+            const innerData = (data) => {
+              type.innerHTML = `${getType(data.data.type)} (${data.data.type})`;
+              name_short.value = data.data.name.short_with_opf
+                ? data.data.name.short_with_opf
+                : '';
+              name_full.value = data.data.name.full_with_opf
+                ? data.data.name.full_with_opf
+                : '';
+              name_full.value = data.data.name.full_with_opf
+                ? data.data.name.full_with_opf
+                : '';
+              inn_kpp.value = `${data.data.inn ? data.data.inn : ''} ${
+                data.data.kpp ? ' / ' + data.data.kpp : ''
+              }`;
+              address.value = data.data.address.unrestricted_value
+                ? data.data.address.unrestricted_value
+                : '';
+            };
+            //Получим данные
+            const init = () => {
+              var url =
+                'https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/party';
+              var token = '337ba3be0c43d22c8fdc2b029646924670dee4cb';
+              var query = this.selector.value;
+
+              var options = {
+                method: 'POST',
+                mode: 'cors',
+                headers: {
+                  'Content-Type': 'application/json',
+                  Accept: 'application/json',
+                  Authorization: 'Token ' + token,
+                },
+                body: JSON.stringify({ query: query }),
+              };
+              fetch(url, options)
+                .then((response) => response.text())
+                .then((result) => innerSearch(JSON.parse(result).suggestions))
+                .catch((error) => console.log('error', error));
+            };
+
+            //Удаление данных
+            const destroy = () => {
+              suggestions.innerHTML = '';
+            };
+            //Закрытие селекта при клике вне области
+            document.body.addEventListener('click', (event) => {
+              if (
+                !event.target.classList.contains('suggestions-wrapper') &&
+                event.target !== this.selector
+              ) {
+                destroy();
+              }
+            });
+
+            this.selector.addEventListener('input', () =>
+              this.selector.value.length ? init() : destroy()
+            );
+            this.selector.addEventListener('focus', () =>
+              this.selector.value.length ? init() : destroy()
+            );
+          }
+        }
+        const suggestions = new Suggestions({
+          selector: '#party',
+        });
+      </script>
+      <section class="search">
+        <p><strong>Компания или ИП</strong></p>
+        <input
+          id="party"
+          name="party"
+          type="text"
+          placeholder="Введите название, ИНН, ОГРН или адрес организации"
+        />
+      </section>
+
+      <section id="result">
+        <p id="type"></p>
+        <div class="row">
+          <label>Краткое наименование</label>
+          <input id="name_short" />
+        </div>
+        <div class="row">
+          <label>Полное наименование</label>
+          <input id="name_full" />
+        </div>
+        <div class="row">
+          <label>ИНН / КПП</label>
+          <input id="inn_kpp" />
+        </div>
+        <div class="row">
+          <label>Адрес</label>
+          <input id="address" />
+        </div>
+      </section>
+    </template>
+    <div id="app">
+      <suggest id="hf"></suggest>
+    </div>
+    <script src="js/common.min.js"></script>
+  </body>
+</html>

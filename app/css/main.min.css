@@ -1,0 +1,180 @@
+@charset "UTF-8";
+*::-webkit-input-placeholder {
+  color: #9f9f9f; }
+
+*:-moz-placeholder {
+  color: #9f9f9f; }
+
+*::-moz-placeholder {
+  color: #9f9f9f; }
+
+*:-ms-input-placeholder {
+  color: #9f9f9f; }
+
+*:placeholder {
+  color: #9f9f9f; }
+
+*::-ms-clear {
+  display: none; }
+
+*::-webkit-scrollbar {
+  width: 8px; }
+
+*::-webkit-scrollbar-track {
+  background: #000000; }
+
+*::-webkit-scrollbar-thumb {
+  background: #fff; }
+
+* {
+  scrollbar-base-color: #ddd;
+  scrollbar-face-color: #000000;
+  scrollbar-3dlight-color: transparent;
+  scrollbar-highlight-color: transparent;
+  scrollbar-track-color: transparent;
+  scrollbar-arrow-color: #000000;
+  scrollbar-shadow-color: transparent;
+  scrollbar-dark-shadow-color: transparent;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box; }
+
+*::-moz-selection {
+  color: #fff;
+  background: #000000; }
+
+*::selection {
+  color: #fff;
+  background: #000000; }
+
+body {
+  font-size: 16px;
+  min-width: 320px;
+  position: relative;
+  line-height: 1.2em;
+  font-family: 'Exo 2', sans-serif;
+  overflow-x: hidden;
+  color: #000000; }
+
+* {
+  margin: 0;
+  padding: 0; }
+
+input {
+  font-size: 16px;
+  padding: 4px;
+  border: none;
+  border: 1px solid #3f3f3f;
+  border-right-width: 5px; }
+  input:hover {
+    border-color: #00daff; }
+
+.result {
+  width: 50%;
+  min-width: 300px;
+  margin-left: auto;
+  margin-right: auto; }
+
+.row {
+  margin-top: 1em; }
+
+.row label {
+  display: block;
+  min-width: 10em; }
+
+input, textarea {
+  width: 100%; }
+
+#app {
+  max-width: 1200px;
+  width: 100%;
+  padding: 0px 15px;
+  margin: 0 auto; }
+
+.suggestions-wrapper {
+  position: relative; }
+
+.suggestions {
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  left: 0; }
+
+.suggestions__list {
+  padding: 0;
+  padding-top: 30px;
+  list-style-type: none;
+  position: relative;
+  background-color: #fff;
+  border: 1px solid #3f3f3f;
+  max-height: 300px;
+  overflow-y: scroll; }
+  .suggestions__list::before {
+    content: 'Выберите вариант или продолжите ввод';
+    top: 5px;
+    left: 5px;
+    position: absolute;
+    font-size: 14px;
+    color: #9f9f9f; }
+
+.suggestions.empty .suggestions__list::before {
+  content: 'Неизвестная организация';
+  top: 5px;
+  left: 5px;
+  position: absolute;
+  font-size: 14px;
+  color: #9f9f9f; }
+
+.suggestions__list-item {
+  padding: 5px;
+  cursor: pointer; }
+  .suggestions__list-item:hover {
+    background-color: #f5f5f5; }
+
+.suggestions__list-item__title {
+  text-transform: uppercase; }
+
+.suggestions__list-item__subtitle {
+  text-transform: uppercase;
+  color: #9f9f9f; }
+
+/*========== First  ==========*/
+/* Large Devices, Wide Screens */
+@media only screen and (max-width: 1400px) {
+  /**/ }
+
+/* Medium Devices, */
+@media only screen and (max-width: 1200px) {
+  /**/ }
+
+/* Small Devices, Tablets */
+@media only screen and (max-width: 996px) {
+  /**/ }
+
+/* Extra Small Devices, Phones */
+@media only screen and (max-width: 760px) {
+  /**/ }
+
+/* Custom, iPhone Retina */
+@media only screen and (max-width: 480px) {
+  /**/ }
+
+/*==========  Mobile First  ==========*/
+/* Custom, iPhone Retina */
+@media only screen and (min-width: 320px) {
+  /**/ }
+
+/* Extra Small Devices, Phones */
+@media only screen and (min-width: 480px) {
+  /**/ }
+
+/* Small Devices, Tablets */
+@media only screen and (min-width: 768px) {
+  /**/ }
+
+/* Medium Devices, */
+@media only screen and (min-width: 992px) {
+  /**/ }
+
+/* Large Devices, Wide Screens */
+@media only screen and (min-width: 1200px) {
+  /**/ }
